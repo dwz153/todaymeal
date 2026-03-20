@@ -1,0 +1,24 @@
+{
+  "name": "TodayMeal - 오늘 뭐 먹지?",
+  "short_name": "TodayMeal",
+  "description": "음식 이미지 기반 1:1 토너먼트로 메뉴 결정 피로 해소",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#FFF8F0",
+  "theme_color": "#FF6B35",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "/icons/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icons/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

@@ -1,36 +1,93 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🍽️ TodayMeal — 오늘 뭐 먹지?
 
-## Getting Started
+음식 이미지 기반 **1:1 토너먼트 방식**으로 메뉴 결정 피로를 해소하는 PWA 앱.
 
-First, run the development server:
+## 기술 스택
+
+- **Next.js 14** (App Router + API Routes)
+- **Tailwind CSS** — 모바일 최적화 UI
+- **Firebase Firestore** — 음식 데이터 (선택 사항, 없으면 내장 데이터 사용)
+- **next-pwa** — 홈 화면 설치 (PWA)
+- **Kakao Local API** — 주변 식당 조회 (선택 사항)
+- **localStorage** — 히스토리 저장
+
+## 화면 구성
+
+| 페이지 | 경로 | 설명 |
+|---|---|---|
+| 홈 | `/` | 시간 자동 감지, 점심/저녁 선택, 시작 |
+| 장르 선택 | `/genre` | 한식/중식/일식/양식/분식/패스트푸드/아시안 토글 |
+| 월드컵 대결 | `/battle` | 풀스크린 1:1 음식 대결, 진행률 표시 |
+| 결과 | `/result` | 최종 음식 확정, 주변 식당 조회 |
+| 히스토리 | `/history` | 날짜별 과거 선택 기록 |
+
+## 로컬 개발
 
 ```bash
+# 설치
+npm install
+
+# 개발 서버 실행
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+→ [http://localhost:3000](http://localhost:3000) 에서 확인
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 환경 변수 설정 (선택 사항)
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+`.env.local.example`을 복사해서 `.env.local`을 만들고 값을 채워주세요:
 
-## Learn More
+```bash
+cp .env.local.example .env.local
+```
 
-To learn more about Next.js, take a look at the following resources:
+**Firebase** (Firestore에서 음식 데이터 로드 시 필요):
+- Firebase Console → 프로젝트 설정 → 앱 추가 → 웹 앱
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+**Kakao API** (주변 식당 조회 시 필요):
+- [Kakao Developers](https://developers.kakao.com) → 앱 만들기 → REST API 키
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+> 환경 변수 없이도 앱은 내장 56개 메뉴 데이터로 완전히 동작합니다.
 
-## Deploy on Vercel
+## Firestore 데이터 시딩
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```bash
+# dotenv 설치 (시딩 스크립트용)
+npm install -D dotenv ts-node
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+# 시딩 실행 (Firebase 설정 필요)
+npm run seed
+```
+
+## Vercel 배포
+
+```bash
+# Vercel CLI 설치
+npm i -g vercel
+
+# 배포
+vercel --prod
+```
+
+또는 GitHub 연동 → Vercel 대시보드에서 Import → 환경 변수 설정.
+
+## 음식 데이터 구조
+
+```typescript
+interface Food {
+  id: string;
+  name: string;          // 예: "김치찌개"
+  genre: string[];       // 예: ["한식"]
+  imageUrl: string;      // Unsplash/Firebase Storage URL
+  tags: string[];        // 예: ["국물", "매운맛"]
+  mealType: string[];    // ["lunch"] | ["dinner"] | ["lunch","dinner"]
+  emoji: string;         // 이미지 로드 실패 시 표시
+}
+```
+
+## 개발 마일스톤
+
+- ✅ **M1** — Next.js 14 + Firebase + PWA 초기 설정, 56개 음식 데이터
+- ✅ **M2** — 장르 선택 → 월드컵 대결 → 결과 화면
+- ✅ **M3** — 시간 자동 감지, 히스토리, 카카오맵 연동
+- ✅ **M4** — UI 마무리, PWA 설치, Vercel 배포 준비
