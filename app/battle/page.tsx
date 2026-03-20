@@ -53,21 +53,24 @@ function FoodBattleCard({
         )}
       </div>
 
-      {/* Overlay */}
-      <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
+      {/* 중앙 어두운 오버레이 — 텍스트 가독성 */}
+      <div className="absolute inset-0 bg-black/40" />
 
-      {/* Select hint */}
-      <div className="absolute inset-0 flex items-center justify-center opacity-0 group-active:opacity-100 transition-opacity">
-        <div className="bg-white/20 backdrop-blur-sm rounded-full p-5">
-          <span className="text-white text-4xl">✓</span>
-        </div>
-      </div>
-
-      {/* Food name */}
-      <div className="absolute bottom-0 left-0 right-0 p-5">
-        <p className="text-white font-black text-2xl drop-shadow-lg leading-tight">
+      {/* 음식 이름 — 정중앙 */}
+      <div className="absolute inset-0 flex flex-col items-center justify-center px-4">
+        <p
+          className="text-white font-black text-center leading-tight drop-shadow-2xl"
+          style={{ fontSize: 'clamp(2rem, 8vw, 3rem)', textShadow: '0 2px 12px rgba(0,0,0,0.9)' }}
+        >
           {food.name}
         </p>
+      </div>
+
+      {/* 탭 시 체크 표시 */}
+      <div className="absolute inset-0 flex items-center justify-center opacity-0 group-active:opacity-100 transition-opacity bg-white/10">
+        <div className="bg-white/30 backdrop-blur-sm rounded-full p-6">
+          <span className="text-white font-black" style={{ fontSize: '2.5rem' }}>✓</span>
+        </div>
       </div>
     </button>
   );
